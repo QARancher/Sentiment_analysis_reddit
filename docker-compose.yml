@@ -1,0 +1,10 @@
+---
+version: '3'
+services:
+  freqtrade:
+    image: cryptorahino/reddit_sentiment:latest
+    restart: unless-stopped
+    container_name: reddit_collect_sentiment
+    volumes:
+      - "~/reddit:/reddit/"
+    command: python /reddit/main.py --mode download --subreddit dogecoin --start_date 2022-01-07 --end_date 2022-01-08

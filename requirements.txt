@@ -1,0 +1,7 @@
+praw
+psaw
+flair
+pandas
+numpy
+nltk
+asyncpraw
