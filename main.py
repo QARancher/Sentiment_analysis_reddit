@@ -23,7 +23,7 @@ def run_download(subreddits: list, start_date: dt, end_date: dt, additional_args
 
 def run_analysis(flavor):
     print("running analysis")
-    for file in Path(__file__).parent.glob('*/*.csv'):
+    for file in Path(__file__).parent.glob('*.csv'):
         print(f"working file {file}")
         results = pd.read_csv(file, index_col=0, parse_dates=True)
         pred = Prediction(flavor=flavor)
@@ -78,9 +78,9 @@ def main(args):
         raise Exception(f"wrong mode {mode}")
     print("Done")
 
-
 if __name__ == '__main__':
     """
+    Download historical data from reddit
     1. download only subreddit 
     2. sentiment analysis only
     3. download + sentiment
