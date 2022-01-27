@@ -22,7 +22,13 @@ def run_download(subreddits: list, start_date: dt, end_date: dt, additional_args
 
 
 def run_analysis(flavor):
+    """
+    run sentiment analysis and save to csv the output
+    :param flavor: 'ntlk' or 'flair'
+    :return:
+    """
     print("running analysis")
+    df_result = pd.Dataframe()
     for file in Path(__file__).parent.glob('*.csv'):
         print(f"working file {file}")
         results = pd.read_csv(file, index_col=0, parse_dates=True)
@@ -35,10 +41,11 @@ def run_analysis(flavor):
         df_subs = df_subs.groupby(df_subs['date'].dt.date).agg(
             {'sentiment': np.sum, 'id': np.size}).rename(
             columns={'id': 'volume'})
-        subreddit = file.name.split('_')[1]
-        df_subs.to_csv(f'{subreddit}.csv')
-        print(f"saved {subreddit}.csv")
-        return df_subs
+        df_result = pd.concat([df_result, df_subs], axis=1)
+        #  get subreddit name from one of the raw files, use the last one
+    subreddit = file.name.split('_')[1]
+    df_result.to_csv(f'{subreddit}.csv')
+    print(f"saved {subreddit}.csv")
 
 
 def download_comments_sentiment_for_subreddit(subreddit, start_date, end_date,
