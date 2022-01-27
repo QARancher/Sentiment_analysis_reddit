@@ -22,7 +22,7 @@ class Reddit:
         interface class for reddit's clients 
         :param api_type: type of the reddit's api, reddit or reddit
         """
-        with open(Path('cred.txt')) as cred_file:
+        with open(Path('cred.json')) as cred_file:
             cred = json.load(cred_file)
         self.reddit = praw.Reddit(**cred) if 'reddit' == api_type else asyncpraw.Reddit(**cred)
 
