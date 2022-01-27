@@ -27,7 +27,7 @@ def run_analysis(flavor):
     :param flavor: 'ntlk' or 'flair'
     """
     print("running analysis")
-    df_result = pd.Dataframe()
+    df_result = pd.DataFrame()
     for file in Path(__file__).parent.glob('*.csv'):
         print(f"working file {file}")
         results = pd.read_csv(file, index_col=0, parse_dates=True)
@@ -48,7 +48,7 @@ def run_analysis(flavor):
 
 
 def download_comments_sentiment_for_subreddit(subreddit, start_date, end_date,
-                                              additional_args: dict = None) -> pd.Dataframe:
+                                              additional_args: dict = None):
     """
     download comments for specific subreddit
     :param subreddit: the name of the subreddit to work with

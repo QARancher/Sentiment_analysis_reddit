@@ -1,4 +1,5 @@
 import datetime
+import json
 import threading
 from multiprocessing.pool import ThreadPool
 import asyncpraw
@@ -6,12 +7,13 @@ import pandas as pd
 from psaw import PushshiftAPI
 import praw
 from utils import split_dates
-
-cred = dict(
-    client_id="WEnBj2RgwnPo2yts9F99Gg",
-    client_secret="XEbxKnzknMOzFANmcwRYrLcDRTnynQ",
-    redirect_uri="http://localhost:8080",
-    user_agent="testscript")
+from pathlib import Path
+# cred = dict(
+#     client_id="WEnBj2RgwnPo2yts9F99Gg",
+#     client_secret="XEbxKnzknMOzFANmcwRYrLcDRTnynQ",
+#     redirect_uri="http://localhost:8080",
+#     user_agent="testscript"
+#     )
 
 
 class Reddit:
@@ -20,7 +22,8 @@ class Reddit:
         interface class for reddit's clients 
         :param api_type: type of the reddit's api, reddit or reddit
         """
-
+        with open(Path('cred.txt')) as cred_file:
+            cred = json.load(cred_file)
         self.reddit = praw.Reddit(**cred) if 'reddit' == api_type else asyncpraw.Reddit(**cred)
 
     def _get_subreddit(self, subreddit_name):
