@@ -22,7 +22,9 @@ def run_download(subreddits: list, start_date: dt, end_date: dt, additional_args
 
 
 def run_analysis(flavor):
+    print("running analysis")
     for file in Path(__file__).parent.glob('*/*.csv'):
+        print(f"working file {file}")
         results = pd.read_csv(file, index_col=0, parse_dates=True)
         pred = Prediction(flavor=flavor)
         df_subs = pred.apply_sentiment(results)
