@@ -25,7 +25,6 @@ def run_analysis(flavor):
     """
     run sentiment analysis and save to csv the output
     :param flavor: 'ntlk' or 'flair'
-    :return:
     """
     print("running analysis")
     df_result = pd.Dataframe()
@@ -42,14 +41,22 @@ def run_analysis(flavor):
             {'sentiment': np.sum, 'id': np.size}).rename(
             columns={'id': 'volume'})
         df_result = pd.concat([df_result, df_subs], axis=1)
-        #  get subreddit name from one of the raw files, use the last one
+    #  get subreddit name from one of the raw files, use the last one
     subreddit = file.name.split('_')[1]
     df_result.to_csv(f'{subreddit}.csv')
     print(f"saved {subreddit}.csv")
 
 
 def download_comments_sentiment_for_subreddit(subreddit, start_date, end_date,
-                                              additional_args: dict = None):
+                                              additional_args: dict = None) -> pd.Dataframe:
+    """
+    download comments for specific subreddit
+    :param subreddit: the name of the subreddit to work with
+    :param start_date: since when to collect comments
+    :param end_date: until when to collect comments
+    :param additional_args: any filters that supported by PushshiftAPI
+    :return: dataframe with raw historical data
+    """
     r = HistoricalReddit(subreddit)
     query = [{'start_date': int(dat[0]), 'end_date': int(dat[1]), **additional_args} for dat in
              split_dates(start_date, end_date, freq="D")]
@@ -85,9 +92,10 @@ def main(args):
         raise Exception(f"wrong mode {mode}")
     print("Done")
 
+
 if __name__ == '__main__':
     """
-    Download historical data from reddit
+    Download historical data from reddit and analyse its sentiment
     1. download only subreddit 
     2. sentiment analysis only
     3. download + sentiment
