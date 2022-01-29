@@ -74,7 +74,10 @@ def main(args):
     filters = getattr(args, 'filters')
     mode = getattr(args, 'mode')
     flavor = getattr(args, 'flavor', 'ntlk')
-
+    # download pre-trained model for ntlk
+    if not Path(f'/home/reddit/{flavor}_data/').exists():
+        import nltk
+        nltk.download('vader_lexicon')
     if 'download' in mode:
         if filters:
             additional_args.update({v.split('=')[0]: v.split('=')[1] for v in filters})
