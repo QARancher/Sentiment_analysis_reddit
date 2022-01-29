@@ -37,10 +37,11 @@ def run_analysis(flavor):
         df_subs['date'] = pd.to_datetime(df_subs['date'])
         txt_col = 'body' if 'body' in df_subs.columns else 'title'
         df_subs = df_subs.drop(columns=[txt_col, 'created_utc', 'score']).sort_values(by='date')
-        df_subs = df_subs.groupby(df_subs['date'].dt.date).agg(
-            {'sentiment': np.sum, 'id': np.size}).rename(
-            columns={'id': 'volume'})
         df_result = pd.concat([df_result, df_subs], axis=1)
+    # group by day and sum sentiment
+    df_result = df_result.groupby(df_result['date'].dt.date).agg(
+        {'sentiment': np.sum, 'id': np.size}).rename(
+        columns={'id': 'volume'})
     #  get subreddit name from one of the raw files, use the last one
     subreddit = file.name.split('_')[2]
     df_result.to_csv(f'{subreddit}.csv')
