@@ -164,7 +164,7 @@ class HistoricalReddit(RedditClient):
                 continue
             df['date'] = pd.to_datetime(df['created_utc'], utc=True, unit='s')
         df.to_csv(
-            f"raw_posts_{self.subreddit.display_name}_{df['date'].tail(1).dt.strftime('%Y-%m-%d_%H-%M').values[0]}_{df['date'].head(1).dt.strftime('%Y-%m-%d_%H-%M').values[0]}.csv")
+            f"raw_comments_{self.subreddit.display_name}_{df['date'].tail(1).dt.strftime('%Y-%m-%d_%H-%M').values[0]}_{df['date'].head(1).dt.strftime('%Y-%m-%d_%H-%M').values[0]}.csv")
 
         return df
 

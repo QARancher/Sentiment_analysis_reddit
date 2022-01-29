@@ -42,7 +42,7 @@ def run_analysis(flavor):
             columns={'id': 'volume'})
         df_result = pd.concat([df_result, df_subs], axis=1)
     #  get subreddit name from one of the raw files, use the last one
-    subreddit = file.name.split('_')[1]
+    subreddit = file.name.split('_')[2]
     df_result.to_csv(f'{subreddit}.csv')
     print(f"saved {subreddit}.csv")
 

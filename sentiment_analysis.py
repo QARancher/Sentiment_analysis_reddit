@@ -78,6 +78,8 @@ class Prediction:
             print(f"got empty df, no text to analyze. returning original df {df}")
             return df
         chunks = round(df.shape[0] / multiprocessing.cpu_count())
+        if chunks < 1:
+            chunks = df.shape[0]
         list_sr = [df[i:i + chunks] for i in range(0, df.shape[0], chunks)]
         with multiprocessing.Pool() as pool:
             sentiment = pool.starmap(self._apply_sentiment, zip(list_sr))
